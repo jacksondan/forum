@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import br.com.jackcompany.forum.controller.dto.TopicoDTO;
 import br.com.jackcompany.forum.controller.dto.TopicoFormDTO;
 import br.com.jackcompany.forum.controller.dto.TopicoUpdateFormDTO;
 import br.com.jackcompany.forum.model.Topico;
+import br.com.jackcompany.forum.model.Usuario;
 import br.com.jackcompany.forum.repository.CursoRepository;
 import br.com.jackcompany.forum.repository.TopicoRepository;
 
@@ -62,7 +64,9 @@ public class TopicosController {
 	@CacheEvict(value = "listaTopicos", allEntries = true)
 	public TopicoDTO cadastraTopico(@RequestBody @Valid TopicoFormDTO form) {
 		Topico topico = form.parseToTopico(cursoRepository);
-		 return new TopicoDTO(topicoRepository.save(topico));
+		Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		topico.setAutor(usuario);
+		return new TopicoDTO(topicoRepository.save(topico));
 	}
 	
 	@PutMapping("/{id}")

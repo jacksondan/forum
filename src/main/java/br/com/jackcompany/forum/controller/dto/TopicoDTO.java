@@ -10,6 +10,8 @@ public class TopicoDTO {
 	private Long id;
 	private String titulo;
 	private String mensagem;
+	private String curso;
+	private String autor;
 	private LocalDateTime dataCriacao;
 	private LocalDateTime dataAlteracao;
 	
@@ -17,6 +19,8 @@ public class TopicoDTO {
 		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
 		this.mensagem = topico.getMensagem();
+		this.curso = topico.getCurso().getNome();
+		this.autor = topico.getAutor().getNome();
 		this.dataCriacao = topico.getDataCriacao();
 		this.dataAlteracao = topico.getDataAlteracao();
 	}
@@ -30,13 +34,19 @@ public class TopicoDTO {
 	public String getMensagem() {
 		return mensagem;
 	}
+	public String getCurso() {
+		return curso;
+	}
+	public String getAutor() {
+		return autor;
+	}
+
 	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 	public LocalDateTime getDataAlteracao() {
 		return dataAlteracao;
 	}
-
 	public Topico parseTopico() {
 		Topico topico = new Topico(titulo, mensagem, null);
 		return topico;
